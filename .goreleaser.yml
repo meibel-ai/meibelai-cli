@@ -1,0 +1,330 @@
+# GoReleaser configuration
+# Documentation: https://goreleaser.com
+
+project_name: meibel
+
+before:
+  hooks:
+    # You may remove this if you don't use go modules
+    - go mod tidy
+    # Generate completions
+    - sh -c "mkdir -p completions && go run . completion bash > completions/meibel.bash"
+    - sh -c "go run . completion zsh > completions/meibel.zsh"
+    - sh -c "go run . completion fish > completions/meibel.fish"
+
+builds:
+  - id: meibel
+    binary: meibel
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+      - arm
+      - 386
+    goarm:
+      - "6"
+      - "7"
+    # Skip some combinations
+    ignore:
+      - goos: darwin
+        goarch: 386
+      - goos: darwin
+        goarch: arm
+      - goos: windows
+        goarch: arm
+      - goos: windows
+        goarch: arm64
+    ldflags:
+      - -s -w
+      - -X github.com/meibel-ai/meibel-cli/internal/version.Version={{.Version}}
+      - -X github.com/meibel-ai/meibel-cli/internal/version.Commit={{.Commit}}
+      - -X github.com/meibel-ai/meibel-cli/internal/version.BuildDate={{.Date}}
+    mod_timestamp: '{{ .CommitTimestamp }}'
+
+archives:
+  - id: meibel
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - README.md
+      - LICENSE
+      - completions/*
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - '^ci:'
+      - Merge pull request
+      - Merge branch
+  groups:
+    - title: 'New Features'
+      regexp: "^.*feat[(\\w)]*:+.*$"
+      order: 0
+    - title: 'Bug Fixes'
+      regexp: "^.*fix[(\\w)]*:+.*$"
+      order: 1
+    - title: 'API Updates'
+      regexp: "^.*api[(\\w)]*:+.*$"
+      order: 2
+    - title: 'Other Changes'
+      order: 999
+
+# Linux packages
+nfpms:
+  - id: packages
+    package_name: meibel
+    file_name_template: >-
+      {{ .PackageName }}_
+      {{- trimsuffix .Version "-" }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+    vendor: "Meibel AI"
+    homepage: https://github.com/meibel-ai/meibel-cli
+    maintainer: "Meibel Team <support@meibel.ai>"
+    description: |-
+      CLI for interacting with Meibel AI API.
+      A command-line interface generated from the Meibel AI OpenAPI specification.
+    license: "MIT"
+    formats:
+      - deb
+      - rpm
+      - apk
+    dependencies:
+      - ca-certificates
+    recommends:
+      - git
+    contents:
+      # Completions
+      - src: ./completions/meibel.bash
+        dst: /usr/share/bash-completion/completions/meibel
+        file_info:
+          mode: 0644
+      - src: ./completions/meibel.zsh
+        dst: /usr/share/zsh/vendor-completions/_meibel
+        file_info:
+          mode: 0644
+      - src: ./completions/meibel.fish
+        dst: /usr/share/fish/vendor_completions.d/meibel.fish
+        file_info:
+          mode: 0644
+      # Documentation
+      - src: ./README.md
+        dst: /usr/share/doc/meibel/README.md
+        file_info:
+          mode: 0644
+      - src: ./LICENSE
+        dst: /usr/share/licenses/meibel/LICENSE
+        file_info:
+          mode: 0644
+    scripts:
+      postinstall: |
+        #!/bin/sh
+        echo "Meibel CLI installed successfully!"
+        echo "Run 'meibel auth login' to configure authentication."
+      postremove: |
+        #!/bin/sh
+        if [ -d /etc/meibel ]; then
+          echo "Configuration files remain in /etc/meibel"
+        fi
+
+# Homebrew tap
+brews:
+  - name: meibel
+    tap:
+      owner: meibel-ai
+      name: homebrew-tap
+      branch: main
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    download_strategy: CurlDownloadStrategy
+    commit_author:
+      name: goreleaserbot
+      email: bot@goreleaser.com
+    commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
+    folder: Formula
+    homepage: "https://github.com/meibel-ai/meibel-cli"
+    description: "CLI for interacting with Meibel AI API"
+    license: "MIT"
+    install: |
+      bin.install "meibel"
+      bash_completion.install "completions/meibel.bash" => "meibel"
+      zsh_completion.install "completions/meibel.zsh" => "_meibel"
+      fish_completion.install "completions/meibel.fish"
+    test: |
+      system "#{bin}/meibel version"
+    caveats: |
+      To configure authentication, run:
+        meibel auth login
+
+      For more information, visit:
+        https://github.com/meibel-ai/meibel-cli
+
+# Docker images
+dockers:
+  - id: meibel-amd64
+    use: buildx
+    goos: linux
+    goarch: amd64
+    image_templates:
+      - "meibelai/cli:{{ .Tag }}-amd64"
+      - "meibelai/cli:latest-amd64"
+    build_flag_templates:
+      - "--platform=linux/amd64"
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source={{.GitURL}}"
+    dockerfile: Dockerfile
+    
+  - id: meibel-arm64
+    use: buildx
+    goos: linux
+    goarch: arm64
+    image_templates:
+      - "meibelai/cli:{{ .Tag }}-arm64"
+      - "meibelai/cli:latest-arm64"
+    build_flag_templates:
+      - "--platform=linux/arm64"
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source={{.GitURL}}"
+    dockerfile: Dockerfile
+
+docker_manifests:
+  - name_template: "meibelai/cli:{{ .Tag }}"
+    image_templates:
+      - "meibelai/cli:{{ .Tag }}-amd64"
+      - "meibelai/cli:{{ .Tag }}-arm64"
+  - name_template: "meibelai/cli:latest"
+    image_templates:
+      - "meibelai/cli:latest-amd64"
+      - "meibelai/cli:latest-arm64"
+
+# Snapcraft
+snapcrafts:
+  - id: meibel
+    name: meibel
+    publish: true
+    summary: CLI for interacting with Meibel AI API
+    description: |
+      A command-line interface generated from the Meibel AI OpenAPI specification.
+      
+      Features:
+      - Auto-generated commands from OpenAPI spec
+      - Multiple authentication methods
+      - Multiple output formats (JSON, YAML, Table)
+      - Configuration profiles
+      - Dry-run mode
+    grade: stable
+    confinement: strict
+    license: MIT
+    base: core20
+    apps:
+      meibel:
+        command: meibel
+        plugs:
+          - network
+          - home
+
+# GitHub Release
+release:
+  github:
+    owner: meibel-ai
+    name: meibel-cli
+  name_template: "{{.ProjectName}}-v{{.Version}}"
+  prerelease: auto
+  mode: append
+  header: |
+    ## Meibel CLI Release {{.Version}}
+    
+    ### Installation
+    
+    #### Homebrew (macOS/Linux)
+    ```bash
+    brew install meibel-ai/tap/meibel
+    ```
+    
+    #### APT (Debian/Ubuntu)
+    ```bash
+    curl -LO https://github.com/meibel-ai/meibel-cli/releases/download/{{ .Tag }}/meibel_{{ .Version }}_linux_amd64.deb
+    sudo dpkg -i meibel_{{ .Version }}_linux_amd64.deb
+    ```
+    
+    #### YUM (RedHat/CentOS/Fedora)
+    ```bash
+    curl -LO https://github.com/meibel-ai/meibel-cli/releases/download/{{ .Tag }}/meibel_{{ .Version }}_linux_amd64.rpm
+    sudo rpm -i meibel_{{ .Version }}_linux_amd64.rpm
+    ```
+    
+    #### Snap
+    ```bash
+    snap install meibel
+    ```
+    
+    #### Docker
+    ```bash
+    docker run --rm meibelai/cli:{{ .Tag }} --help
+    ```
+    
+    #### Direct Download
+    See the assets below for all available platforms.
+    
+  footer: |
+    ## Verifying Checksums
+    ```bash
+    # Download checksums
+    curl -LO https://github.com/meibel-ai/meibel-cli/releases/download/{{ .Tag }}/checksums.txt
+    
+    # Verify (Linux/macOS)
+    sha256sum --check checksums.txt
+    ```
+    
+    **Full Changelog**: https://github.com/meibel-ai/meibel-cli/compare/{{ .PreviousTag }}...{{ .Tag }}
+
+# Announce releases
+announce:
+  skip: "{{gt .Patch 0}}"
+  discord:
+    enabled: false
+    message_template: |
+      **Meibel CLI {{.Tag}} is out!** 🎉
+      Check it out at {{ .ReleaseURL }}
+  slack:
+    enabled: false
+    message_template: |
+      Meibel CLI {{.Tag}} is out! 🎉
+      Check it out at {{ .ReleaseURL }}
+
+# The lines beneath this are called `modelines`. See `:help modeline`
+# Feel free to remove those if you don't want/use them.
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj

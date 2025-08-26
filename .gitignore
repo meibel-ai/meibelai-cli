@@ -1,0 +1,59 @@
+# Binaries
+meibel
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Build directories
+dist/
+build/
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.html
+
+# Go workspace files
+go.work
+go.work.sum
+
+# Dependency directories
+vendor/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# API spec backup
+api-new.json
+api-old.json
+api-changes.md
+
+# Configuration files (may contain sensitive data)
+.meibel.yaml
+.meibel.json
+.env
+
+# Temporary files
+*.tmp
+*.bak
+tmp/
+
+# Log files
+*.log
+
+# Generated documentation
+docs/commands/
+
+# Generated code (uncomment to exclude from version control)
+# cmd/generated_commands.go
