@@ -61,6 +61,11 @@ var documentsProcessDocumentCmd = &cobra.Command{
 		}
 		defer f.Close()
 
+		opts := &sdk.ProcessDocumentOptions{}
+		if documentsProcessDocumentFormat != "" {
+			opts.Format = &documentsProcessDocumentFormat
+		}
+
 		result, err := client.Documents.ProcessDocument(ctx, f, filepath.Base(documentsProcessDocumentFile), opts)
 		if err != nil {
 			return err

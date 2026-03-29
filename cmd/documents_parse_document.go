@@ -60,7 +60,7 @@ var documentsParseDocumentCmd = &cobra.Command{
 		defer f.Close()
 
 		if documentsParseDocumentWait {
-			result, err := client.Documents.ProcessDocument(ctx, f, filepath.Base(documentsParseDocumentFile))
+			result, err := client.Documents.ProcessDocument(ctx, f, filepath.Base(documentsParseDocumentFile), nil)
 			if err != nil {
 				return err
 			}

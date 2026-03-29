@@ -20,7 +20,7 @@ var datasourcesMetadataModelCatalogListMetadataModelCatalogCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()
 
-		opts := &sdk.ListMetadataModelCatalogOptions{}
+		opts := &sdk.DatasourcesListMetadataModelCatalogOptions{}
 		if datasourcesMetadataModelCatalogListMetadataModelCatalogScope != "" {
 			opts.Scope = &datasourcesMetadataModelCatalogListMetadataModelCatalogScope
 		}
