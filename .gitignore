@@ -59,4 +59,4 @@ docs/commands/
 # cmd/generated_commands.go
 
 # Forge manifest
-.forge-manifest.json
+.forge-manifest.jsonmeibel-cli
