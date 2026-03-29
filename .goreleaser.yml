@@ -143,15 +143,8 @@ nfpms:
         file_info:
           mode: 0644
     scripts:
-      postinstall: |
-        #!/bin/sh
-        echo "Meibel CLI installed successfully!"
-        echo "Run 'meibel auth login' to configure authentication."
-      postremove: |
-        #!/bin/sh
-        if [ -d /etc/meibel ]; then
-          echo "Configuration files remain in /etc/meibel"
-        fi
+      postinstall: scripts/postinstall.sh
+      postremove: scripts/postremove.sh
 
 # Homebrew tap
 brews:
