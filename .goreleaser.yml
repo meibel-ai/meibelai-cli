@@ -1,5 +1,6 @@
 # GoReleaser configuration
 # Documentation: https://goreleaser.com
+version: 2
 
 project_name: meibel
 
@@ -160,7 +161,6 @@ brews:
       name: homebrew-tap
       branch: main
       token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
-    download_strategy: CurlDownloadStrategy
     commit_author:
       name: goreleaserbot
       email: bot@goreleaser.com
