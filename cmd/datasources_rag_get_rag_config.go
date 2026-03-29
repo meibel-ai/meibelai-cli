@@ -3,18 +3,18 @@ package cmd
 import (
 	"context"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/spf13/cobra"
 )
 
 var datasourcesRagGetRagConfigCmd = &cobra.Command{
 	Use:   "get-config <datasource-id>",
 	Short: "Get Rag Config",
-	Long:  `Get Rag Config
+	Long: `Get Rag Config
 
 Arguments:
   datasource-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel datasources rag get-config <datasource-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

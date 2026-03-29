@@ -6,28 +6,28 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	datasourcesDataelementsGetDataElementsByFiltersRegexFilter string
+	datasourcesDataelementsGetDataElementsByFiltersRegexFilter      string
 	datasourcesDataelementsGetDataElementsByFiltersMediaTypeFilters []string
-	datasourcesDataelementsGetDataElementsByFiltersData string
-	datasourcesDataelementsGetDataElementsByFiltersInteractive bool
+	datasourcesDataelementsGetDataElementsByFiltersData             string
+	datasourcesDataelementsGetDataElementsByFiltersInteractive      bool
 )
 
 var datasourcesDataelementsGetDataElementsByFiltersCmd = &cobra.Command{
 	Use:   "get-data-elements-by-filters <datasource-id>",
 	Short: "Get Data Elements By Filters",
-	Long:  `Get Data Elements By Filters
+	Long: `Get Data Elements By Filters
 
 Arguments:
   datasource-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel datasources dataelements get-data-elements-by-filters <datasource-id> --regex-filter=<value> --media-type-filters=<value>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()
@@ -43,8 +43,7 @@ Arguments:
 		} else if datasourcesDataelementsGetDataElementsByFiltersInteractive || term.IsTerminal(int(os.Stdin.Fd())) {
 			// Interactive form
 			form := huh.NewForm(
-				huh.NewGroup(
-				),
+				huh.NewGroup(),
 			)
 
 			if err := form.Run(); err != nil {

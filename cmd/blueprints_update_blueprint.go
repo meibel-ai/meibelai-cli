@@ -6,26 +6,26 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	blueprintsUpdateBlueprintData string
+	blueprintsUpdateBlueprintData        string
 	blueprintsUpdateBlueprintInteractive bool
 )
 
 var blueprintsUpdateBlueprintCmd = &cobra.Command{
 	Use:   "update <blueprint-id>",
 	Short: "Update Blueprint",
-	Long:  `Update Blueprint
+	Long: `Update Blueprint
 
 Arguments:
   blueprint-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel blueprints update <blueprint-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()
@@ -41,8 +41,7 @@ Arguments:
 		} else if blueprintsUpdateBlueprintInteractive || term.IsTerminal(int(os.Stdin.Fd())) {
 			// Interactive form
 			form := huh.NewForm(
-				huh.NewGroup(
-				),
+				huh.NewGroup(),
 			)
 
 			if err := form.Run(); err != nil {

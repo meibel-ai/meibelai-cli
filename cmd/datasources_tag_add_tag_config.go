@@ -6,26 +6,26 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	datasourcesTagAddTagConfigData string
+	datasourcesTagAddTagConfigData        string
 	datasourcesTagAddTagConfigInteractive bool
 )
 
 var datasourcesTagAddTagConfigCmd = &cobra.Command{
 	Use:   "add-config <datasource-id>",
 	Short: "Add Tag Config",
-	Long:  `Add Tag Config
+	Long: `Add Tag Config
 
 Arguments:
   datasource-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel datasources tag add-config <datasource-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

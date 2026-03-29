@@ -6,25 +6,25 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	blueprintsExecutionsSendChatMessageStreamData string
+	blueprintsExecutionsSendChatMessageStreamData        string
 	blueprintsExecutionsSendChatMessageStreamInteractive bool
 )
 
 var blueprintsExecutionsSendChatMessageStreamCmd = &cobra.Command{
 	Use:   "send-chat-message-stream <blueprint-instance-id>",
 	Short: "Send a chat message and stream the response via SSE",
-	Long:  `Send a chat message to a running chat agent workflow and stream the response as Server-Sent Events.
+	Long: `Send a chat message to a running chat agent workflow and stream the response as Server-Sent Events.
 
 Arguments:
   blueprint-instance-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel blueprints executions send-chat-message-stream <blueprint-instance-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

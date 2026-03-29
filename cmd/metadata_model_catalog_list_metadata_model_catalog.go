@@ -3,9 +3,9 @@ package cmd
 import (
 	"context"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
 )
 
 var (
@@ -13,9 +13,9 @@ var (
 )
 
 var metadataModelCatalogListMetadataModelCatalogCmd = &cobra.Command{
-	Use:   "list",
-	Short: "List Metadata Model Catalog",
-	Long:  `List Metadata Model Catalog`,
+	Use:     "list",
+	Short:   "List Metadata Model Catalog",
+	Long:    `List Metadata Model Catalog`,
 	Example: "meibel metadata-model-catalog list --scope=<value>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

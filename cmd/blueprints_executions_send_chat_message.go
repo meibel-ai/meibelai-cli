@@ -6,26 +6,26 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	blueprintsExecutionsSendChatMessageData string
+	blueprintsExecutionsSendChatMessageData        string
 	blueprintsExecutionsSendChatMessageInteractive bool
 )
 
 var blueprintsExecutionsSendChatMessageCmd = &cobra.Command{
 	Use:   "send-chat-message <blueprint-instance-id>",
 	Short: "Send Chat Message",
-	Long:  `Send Chat Message
+	Long: `Send Chat Message
 
 Arguments:
   blueprint-instance-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel blueprints executions send-chat-message <blueprint-instance-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

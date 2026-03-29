@@ -8,27 +8,27 @@ import (
 	"os/signal"
 	"path/filepath"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"github.com/meibel-ai/meibel-cli/internal/output"
 	"github.com/meibel-ai/meibel-cli/internal/config"
+	"github.com/meibel-ai/meibel-cli/internal/output"
 	"github.com/meibel-ai/meibel-cli/internal/tui"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
 )
 
 var (
-	documentsProcessDocumentFormat string
-	documentsProcessDocumentFile string
-	documentsProcessDocumentTrace bool
+	documentsProcessDocumentFormat  string
+	documentsProcessDocumentFile    string
+	documentsProcessDocumentTrace   bool
 	documentsProcessDocumentBrowser bool
 )
 
 var documentsProcessDocumentCmd = &cobra.Command{
-	Use:   "process",
-	Short: "Parse a document (sync)",
-	Long:  `Upload a document and block until parsing is complete. Returns the full parsed result.`,
+	Use:     "process",
+	Short:   "Parse a document (sync)",
+	Long:    `Upload a document and block until parsing is complete. Returns the full parsed result.`,
 	Example: "meibel documents process --format=<value>",
-	Hidden: true,
+	Hidden:  true,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()
 

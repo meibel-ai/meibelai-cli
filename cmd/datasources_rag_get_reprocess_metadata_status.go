@@ -3,18 +3,18 @@ package cmd
 import (
 	"context"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/spf13/cobra"
 )
 
 var datasourcesRagGetReprocessMetadataStatusCmd = &cobra.Command{
 	Use:   "get-reprocess-metadata-status <datasource-id>",
 	Short: "Get Reprocess Metadata Status",
-	Long:  `Get Reprocess Metadata Status
+	Long: `Get Reprocess Metadata Status
 
 Arguments:
   datasource-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel datasources rag get-reprocess-metadata-status <datasource-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

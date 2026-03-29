@@ -3,18 +3,18 @@ package cmd
 import (
 	"context"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/spf13/cobra"
 )
 
 var tagDescriptionsListTagTablesCmd = &cobra.Command{
 	Use:   "list-tables <datasource-id>",
 	Short: "List Tag Tables",
-	Long:  `List Tag Tables
+	Long: `List Tag Tables
 
 Arguments:
   datasource-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel tag-descriptions list-tables <datasource-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

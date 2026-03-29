@@ -52,5 +52,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
+        GONOSUMCHECK: github.com/meibel-ai/*
+        GONOSUMDB: github.com/meibel-ai/*
       run: |
-        goreleaser release --clean --skip=docker
+        goreleaser release --clean --skip=docker,snapcraft

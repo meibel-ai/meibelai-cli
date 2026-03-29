@@ -3,25 +3,25 @@ package cmd
 import (
 	"context"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
 )
 
 var (
-	blueprintsInstancesGetBlueprintInstanceIncludeChildren bool
+	blueprintsInstancesGetBlueprintInstanceIncludeChildren   bool
 	blueprintsInstancesGetBlueprintInstanceIncludeActivities bool
-	blueprintsInstancesGetBlueprintInstanceIncludeEvents bool
+	blueprintsInstancesGetBlueprintInstanceIncludeEvents     bool
 )
 
 var blueprintsInstancesGetBlueprintInstanceCmd = &cobra.Command{
 	Use:   "get <blueprint-instance-id>",
 	Short: "Get Blueprint Instance",
-	Long:  `Get Blueprint Instance
+	Long: `Get Blueprint Instance
 
 Arguments:
   blueprint-instance-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel blueprints instances get <blueprint-instance-id> --include-children=<value> --include-activities=<value>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

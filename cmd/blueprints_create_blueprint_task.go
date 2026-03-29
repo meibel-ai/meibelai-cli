@@ -6,26 +6,26 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	blueprintsCreateBlueprintTaskData string
+	blueprintsCreateBlueprintTaskData        string
 	blueprintsCreateBlueprintTaskInteractive bool
 )
 
 var blueprintsCreateBlueprintTaskCmd = &cobra.Command{
 	Use:   "create-task <blueprint-id>",
 	Short: "Create Blueprint Task",
-	Long:  `Create Blueprint Task
+	Long: `Create Blueprint Task
 
 Arguments:
   blueprint-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel blueprints create-task <blueprint-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

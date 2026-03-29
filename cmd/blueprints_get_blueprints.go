@@ -3,14 +3,14 @@ package cmd
 import (
 	"context"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/spf13/cobra"
 )
 
 var blueprintsGetBlueprintsCmd = &cobra.Command{
-	Use:   "list",
-	Short: "Get Blueprints",
-	Long:  `Get Blueprints`,
+	Use:     "list",
+	Short:   "Get Blueprints",
+	Long:    `Get Blueprints`,
 	Example: "meibel blueprints list",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

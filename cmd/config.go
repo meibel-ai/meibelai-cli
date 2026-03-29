@@ -7,9 +7,9 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/huh"
+	"github.com/meibel-ai/meibel-cli/internal/output"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/meibel-ai/meibel-cli/internal/output"
 )
 
 var configCmd = &cobra.Command{
@@ -49,10 +49,10 @@ var configInitCmd = &cobra.Command{
 					Title("Environment").
 					Description("Select the API environment").
 					Options(
-					huh.NewOption[string]("Meibel API (https://api.meibel.ai/v1)", "https://api.meibel.ai/v1"),
-					huh.NewOption[string]("Meibel API (https://api.dev.meibel.ai/v1)", "https://api.dev.meibel.ai/v1"),
-					huh.NewOption[string]("Local Development Server (http://localhost:8000)", "http://localhost:8000"),
-					huh.NewOption[string]("Custom URL", "custom"),
+						huh.NewOption[string]("Meibel API (https://api.meibel.ai/v1)", "https://api.meibel.ai/v1"),
+						huh.NewOption[string]("Meibel API (https://api.dev.meibel.ai/v1)", "https://api.dev.meibel.ai/v1"),
+						huh.NewOption[string]("Local Development Server (http://localhost:8000)", "http://localhost:8000"),
+						huh.NewOption[string]("Custom URL", "custom"),
 					).
 					Value(&environment),
 				huh.NewInput().

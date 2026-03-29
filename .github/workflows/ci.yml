@@ -8,6 +8,9 @@ on:
 
 env:
   GO_VERSION: '1.23'
+  GONOSUMCHECK: github.com/meibel-ai/*
+  GONOSUMDB: github.com/meibel-ai/*
+  GOFLAGS: ''
 
 jobs:
   test:
@@ -26,9 +29,6 @@ jobs:
         go-version: ${{ matrix.go }}
 
     - name: Download dependencies
-      env:
-        GONOSUMCHECK: github.com/meibel-ai/*
-        GONOSUMDB: github.com/meibel-ai/*
       run: go mod download
 
     - name: Build

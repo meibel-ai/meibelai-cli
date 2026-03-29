@@ -6,27 +6,27 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	tagDescriptionsUpdateTagTableDescriptionData string
+	tagDescriptionsUpdateTagTableDescriptionData        string
 	tagDescriptionsUpdateTagTableDescriptionInteractive bool
 )
 
 var tagDescriptionsUpdateTagTableDescriptionCmd = &cobra.Command{
 	Use:   "update-table <datasource-id> <table-name>",
 	Short: "Update Tag Table Description",
-	Long:  `Update Tag Table Description
+	Long: `Update Tag Table Description
 
 Arguments:
   datasource-id: required
   table-name: required`,
-	Args:  cobra.ExactArgs(2),
+	Args:    cobra.ExactArgs(2),
 	Example: "meibel tag-descriptions update-table <datasource-id> <table-name>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

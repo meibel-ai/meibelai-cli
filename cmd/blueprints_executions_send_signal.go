@@ -5,24 +5,24 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/spf13/cobra"
 )
 
 var (
-	blueprintsExecutionsSendSignalData string
+	blueprintsExecutionsSendSignalData        string
 	blueprintsExecutionsSendSignalInteractive bool
 )
 
 var blueprintsExecutionsSendSignalCmd = &cobra.Command{
 	Use:   "send-signal <blueprint-instance-id> <signal-name>",
 	Short: "Send Signal",
-	Long:  `Send Signal
+	Long: `Send Signal
 
 Arguments:
   blueprint-instance-id: Unique identifier for the workflow instance
   signal-name: Name of the signal to send`,
-	Args:  cobra.ExactArgs(2),
+	Args:    cobra.ExactArgs(2),
 	Example: "meibel blueprints executions send-signal <blueprint-instance-id> <signal-name>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

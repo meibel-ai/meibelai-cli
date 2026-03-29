@@ -6,26 +6,26 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	blueprintsInstancesFailBlueprintInstanceData string
+	blueprintsInstancesFailBlueprintInstanceData        string
 	blueprintsInstancesFailBlueprintInstanceInteractive bool
 )
 
 var blueprintsInstancesFailBlueprintInstanceCmd = &cobra.Command{
 	Use:   "fail <blueprint-instance-id>",
 	Short: "Fail a Blueprint Instance",
-	Long:  `This endpoint is used to mark a Blueprint Instance as failed. It will update the status of the Blueprint Instance to 'FAILED' and log the failure event.
+	Long: `This endpoint is used to mark a Blueprint Instance as failed. It will update the status of the Blueprint Instance to 'FAILED' and log the failure event.
 
 Arguments:
   blueprint-instance-id: Unique identifier for the workflow instance`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel blueprints instances fail <blueprint-instance-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()
@@ -41,8 +41,7 @@ Arguments:
 		} else if blueprintsInstancesFailBlueprintInstanceInteractive || term.IsTerminal(int(os.Stdin.Fd())) {
 			// Interactive form
 			form := huh.NewForm(
-				huh.NewGroup(
-				),
+				huh.NewGroup(),
 			)
 
 			if err := form.Run(); err != nil {

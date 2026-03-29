@@ -3,19 +3,19 @@ package cmd
 import (
 	"context"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/spf13/cobra"
 )
 
 var blueprintsInstancesGetEventByBlueprintInstanceCmd = &cobra.Command{
 	Use:   "get-event-by <blueprint-instance-id> <event-id>",
 	Short: "Get Event By Blueprint Instance",
-	Long:  `Get Event By Blueprint Instance
+	Long: `Get Event By Blueprint Instance
 
 Arguments:
   blueprint-instance-id: required
   event-id: required`,
-	Args:  cobra.ExactArgs(2),
+	Args:    cobra.ExactArgs(2),
 	Example: "meibel blueprints instances get-event-by <blueprint-instance-id> <event-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

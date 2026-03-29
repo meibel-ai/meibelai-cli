@@ -14,11 +14,11 @@ var (
 var blueprintsInstancesDeleteBlueprintInstanceCmd = &cobra.Command{
 	Use:   "delete <blueprint-instance-id>",
 	Short: "Delete Blueprint Instance",
-	Long:  `Delete Blueprint Instance
+	Long: `Delete Blueprint Instance
 
 Arguments:
   blueprint-instance-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel blueprints instances delete <blueprint-instance-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

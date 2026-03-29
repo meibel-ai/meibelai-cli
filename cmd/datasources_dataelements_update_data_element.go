@@ -6,27 +6,27 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	datasourcesDataelementsUpdateDataElementData string
+	datasourcesDataelementsUpdateDataElementData        string
 	datasourcesDataelementsUpdateDataElementInteractive bool
 )
 
 var datasourcesDataelementsUpdateDataElementCmd = &cobra.Command{
 	Use:   "update-data-element <datasource-id> <data-element-id>",
 	Short: "Update Data Element",
-	Long:  `Update Data Element
+	Long: `Update Data Element
 
 Arguments:
   datasource-id: required
   data-element-id: required`,
-	Args:  cobra.ExactArgs(2),
+	Args:    cobra.ExactArgs(2),
 	Example: "meibel datasources dataelements update-data-element <datasource-id> <data-element-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()
@@ -43,8 +43,7 @@ Arguments:
 		} else if datasourcesDataelementsUpdateDataElementInteractive || term.IsTerminal(int(os.Stdin.Fd())) {
 			// Interactive form
 			form := huh.NewForm(
-				huh.NewGroup(
-				),
+				huh.NewGroup(),
 			)
 
 			if err := form.Run(); err != nil {

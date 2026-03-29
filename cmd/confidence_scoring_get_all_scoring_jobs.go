@@ -3,27 +3,27 @@ package cmd
 import (
 	"context"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
 )
 
 var (
-	confidenceScoringGetAllScoringJobsAgentName string
-	confidenceScoringGetAllScoringJobsAgentVersion string
-	confidenceScoringGetAllScoringJobsAgentExecutionId string
-	confidenceScoringGetAllScoringJobsAgentWorkflowName string
-	confidenceScoringGetAllScoringJobsAgentWorkflowVersion string
+	confidenceScoringGetAllScoringJobsAgentName                string
+	confidenceScoringGetAllScoringJobsAgentVersion             string
+	confidenceScoringGetAllScoringJobsAgentExecutionId         string
+	confidenceScoringGetAllScoringJobsAgentWorkflowName        string
+	confidenceScoringGetAllScoringJobsAgentWorkflowVersion     string
 	confidenceScoringGetAllScoringJobsAgentWorkflowExecutionId string
-	confidenceScoringGetAllScoringJobsToolId string
-	confidenceScoringGetAllScoringJobsToolInstanceId string
-	confidenceScoringGetAllScoringJobsToolExecutionId string
+	confidenceScoringGetAllScoringJobsToolId                   string
+	confidenceScoringGetAllScoringJobsToolInstanceId           string
+	confidenceScoringGetAllScoringJobsToolExecutionId          string
 )
 
 var confidenceScoringGetAllScoringJobsCmd = &cobra.Command{
-	Use:   "get-all-jobs",
-	Short: "Get All Scoring Jobs",
-	Long:  `Get all scoring jobs for the caller's customer.`,
+	Use:     "get-all-jobs",
+	Short:   "Get All Scoring Jobs",
+	Long:    `Get all scoring jobs for the caller's customer.`,
 	Example: "meibel confidence-scoring get-all-jobs --agent-name=<value> --agent-version=<value>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

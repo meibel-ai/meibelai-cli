@@ -6,26 +6,26 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	blueprintsInstancesCreateEventByBlueprintInstanceIdData string
+	blueprintsInstancesCreateEventByBlueprintInstanceIdData        string
 	blueprintsInstancesCreateEventByBlueprintInstanceIdInteractive bool
 )
 
 var blueprintsInstancesCreateEventByBlueprintInstanceIdCmd = &cobra.Command{
 	Use:   "create-event-by-id <blueprint-instance-id>",
 	Short: "Create Event By Blueprint Instance Id",
-	Long:  `Create Event By Blueprint Instance Id
+	Long: `Create Event By Blueprint Instance Id
 
 Arguments:
   blueprint-instance-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel blueprints instances create-event-by-id <blueprint-instance-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

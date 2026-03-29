@@ -6,9 +6,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/spf13/cobra"
 )
 
 var (
@@ -18,11 +18,11 @@ var (
 var contentUploadContentCmd = &cobra.Command{
 	Use:   "upload <datasource-id>",
 	Short: "Upload Content",
-	Long:  `Upload Content
+	Long: `Upload Content
 
 Arguments:
   datasource-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel content upload <datasource-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

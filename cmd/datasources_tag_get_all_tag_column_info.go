@@ -3,19 +3,19 @@ package cmd
 import (
 	"context"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/spf13/cobra"
 )
 
 var datasourcesTagGetAllTagColumnInfoCmd = &cobra.Command{
 	Use:   "get-all-column-info <datasource-id> <table-name>",
 	Short: "Get All Tag Column Info",
-	Long:  `Get All Tag Column Info
+	Long: `Get All Tag Column Info
 
 Arguments:
   datasource-id: required
   table-name: required`,
-	Args:  cobra.ExactArgs(2),
+	Args:    cobra.ExactArgs(2),
 	Example: "meibel datasources tag get-all-column-info <datasource-id> <table-name>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

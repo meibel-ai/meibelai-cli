@@ -6,28 +6,28 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	datasourcesTagAddTagColumnInfoData string
+	datasourcesTagAddTagColumnInfoData        string
 	datasourcesTagAddTagColumnInfoInteractive bool
 )
 
 var datasourcesTagAddTagColumnInfoCmd = &cobra.Command{
 	Use:   "add-column-info <datasource-id> <table-name> <column-name>",
 	Short: "Add Tag Column Info",
-	Long:  `Add Tag Column Info
+	Long: `Add Tag Column Info
 
 Arguments:
   datasource-id: required
   table-name: required
   column-name: required`,
-	Args:  cobra.ExactArgs(3),
+	Args:    cobra.ExactArgs(3),
 	Example: "meibel datasources tag add-column-info <datasource-id> <table-name> <column-name>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()
@@ -45,8 +45,7 @@ Arguments:
 		} else if datasourcesTagAddTagColumnInfoInteractive || term.IsTerminal(int(os.Stdin.Fd())) {
 			// Interactive form
 			form := huh.NewForm(
-				huh.NewGroup(
-				),
+				huh.NewGroup(),
 			)
 
 			if err := form.Run(); err != nil {

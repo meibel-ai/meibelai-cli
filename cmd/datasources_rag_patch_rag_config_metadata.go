@@ -6,26 +6,26 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	datasourcesRagPatchRagConfigMetadataData string
+	datasourcesRagPatchRagConfigMetadataData        string
 	datasourcesRagPatchRagConfigMetadataInteractive bool
 )
 
 var datasourcesRagPatchRagConfigMetadataCmd = &cobra.Command{
 	Use:   "patch-config-metadata <datasource-id>",
 	Short: "Patch Rag Config Metadata",
-	Long:  `Patch Rag Config Metadata
+	Long: `Patch Rag Config Metadata
 
 Arguments:
   datasource-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel datasources rag patch-config-metadata <datasource-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()
@@ -41,8 +41,7 @@ Arguments:
 		} else if datasourcesRagPatchRagConfigMetadataInteractive || term.IsTerminal(int(os.Stdin.Fd())) {
 			// Interactive form
 			form := huh.NewForm(
-				huh.NewGroup(
-				),
+				huh.NewGroup(),
 			)
 
 			if err := form.Run(); err != nil {

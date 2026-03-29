@@ -10,12 +10,12 @@ import (
 var datasourcesContentStreamDatasourceUploadProgressCmd = &cobra.Command{
 	Use:   "stream-datasource-upload-progress <datasource-id> <upload-id>",
 	Short: "Stream upload progress events (legacy)",
-	Long:  `Subscribe to real-time upload progress updates via Server-Sent Events. Consider using /uploads/{upload_id}/progress instead.
+	Long: `Subscribe to real-time upload progress updates via Server-Sent Events. Consider using /uploads/{upload_id}/progress instead.
 
 Arguments:
   datasource-id: required
   upload-id: required`,
-	Args:  cobra.ExactArgs(2),
+	Args:    cobra.ExactArgs(2),
 	Example: "meibel datasources content stream-datasource-upload-progress <datasource-id> <upload-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

@@ -3,18 +3,18 @@ package cmd
 import (
 	"context"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/spf13/cobra"
 )
 
 var contentTriggerIngestCmd = &cobra.Command{
 	Use:   "trigger-ingest <datasource-id>",
 	Short: "Trigger Ingest",
-	Long:  `Trigger Ingest
+	Long: `Trigger Ingest
 
 Arguments:
   datasource-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel content trigger-ingest <datasource-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

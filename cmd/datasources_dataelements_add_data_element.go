@@ -6,26 +6,26 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	datasourcesDataelementsAddDataElementData string
+	datasourcesDataelementsAddDataElementData        string
 	datasourcesDataelementsAddDataElementInteractive bool
 )
 
 var datasourcesDataelementsAddDataElementCmd = &cobra.Command{
 	Use:   "add-data-element <datasource-id>",
 	Short: "Add Data Element",
-	Long:  `Add Data Element
+	Long: `Add Data Element
 
 Arguments:
   datasource-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel datasources dataelements add-data-element <datasource-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

@@ -5,23 +5,23 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/spf13/cobra"
 )
 
 var (
-	blueprintsInstancesCompleteBlueprintInstanceData string
+	blueprintsInstancesCompleteBlueprintInstanceData        string
 	blueprintsInstancesCompleteBlueprintInstanceInteractive bool
 )
 
 var blueprintsInstancesCompleteBlueprintInstanceCmd = &cobra.Command{
 	Use:   "complete <blueprint-instance-id>",
 	Short: "Complete a Blueprint Instance",
-	Long:  `This endpoint is used to mark a Blueprint Instance as completed. It will update the status of the Blueprint Instance to 'COMPLETED' and log the completion event.
+	Long: `This endpoint is used to mark a Blueprint Instance as completed. It will update the status of the Blueprint Instance to 'COMPLETED' and log the completion event.
 
 Arguments:
   blueprint-instance-id: Unique identifier for the workflow instance`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel blueprints instances complete <blueprint-instance-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

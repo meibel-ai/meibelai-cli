@@ -3,27 +3,27 @@ package cmd
 import (
 	"context"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
 )
 
 var (
-	confidenceScoringListScoringJobsAgentName string
-	confidenceScoringListScoringJobsAgentVersion string
-	confidenceScoringListScoringJobsAgentExecutionId string
-	confidenceScoringListScoringJobsAgentWorkflowName string
-	confidenceScoringListScoringJobsAgentWorkflowVersion string
+	confidenceScoringListScoringJobsAgentName                string
+	confidenceScoringListScoringJobsAgentVersion             string
+	confidenceScoringListScoringJobsAgentExecutionId         string
+	confidenceScoringListScoringJobsAgentWorkflowName        string
+	confidenceScoringListScoringJobsAgentWorkflowVersion     string
 	confidenceScoringListScoringJobsAgentWorkflowExecutionId string
-	confidenceScoringListScoringJobsToolId string
-	confidenceScoringListScoringJobsToolInstanceId string
-	confidenceScoringListScoringJobsToolExecutionId string
+	confidenceScoringListScoringJobsToolId                   string
+	confidenceScoringListScoringJobsToolInstanceId           string
+	confidenceScoringListScoringJobsToolExecutionId          string
 )
 
 var confidenceScoringListScoringJobsCmd = &cobra.Command{
-	Use:   "list-jobs",
-	Short: "List Scoring Jobs",
-	Long:  `List Scoring Jobs`,
+	Use:     "list-jobs",
+	Short:   "List Scoring Jobs",
+	Long:    `List Scoring Jobs`,
 	Example: "meibel confidence-scoring list-jobs --agent-name=<value> --agent-version=<value>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

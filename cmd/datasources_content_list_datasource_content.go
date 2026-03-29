@@ -3,25 +3,25 @@ package cmd
 import (
 	"context"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
 )
 
 var (
-	datasourcesContentListDatasourceContentPrefix string
+	datasourcesContentListDatasourceContentPrefix            string
 	datasourcesContentListDatasourceContentContinuationToken string
-	datasourcesContentListDatasourceContentLimit int64
+	datasourcesContentListDatasourceContentLimit             int64
 )
 
 var datasourcesContentListDatasourceContentCmd = &cobra.Command{
 	Use:   "list <datasource-id>",
 	Short: "List datasource content",
-	Long:  `List files and directories in a datasource with optional filtering and pagination
+	Long: `List files and directories in a datasource with optional filtering and pagination
 
 Arguments:
   datasource-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel datasources content list <datasource-id> --prefix=<value> --continuation-token=<value>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

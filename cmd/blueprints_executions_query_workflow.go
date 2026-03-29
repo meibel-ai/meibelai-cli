@@ -5,24 +5,24 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/spf13/cobra"
 )
 
 var (
-	blueprintsExecutionsQueryWorkflowData string
+	blueprintsExecutionsQueryWorkflowData        string
 	blueprintsExecutionsQueryWorkflowInteractive bool
 )
 
 var blueprintsExecutionsQueryWorkflowCmd = &cobra.Command{
 	Use:   "query-workflow <blueprint-instance-id> <query-name>",
 	Short: "Query Workflow",
-	Long:  `Query Workflow
+	Long: `Query Workflow
 
 Arguments:
   blueprint-instance-id: Unique identifier for the workflow instance
   query-name: Name of the query to execute`,
-	Args:  cobra.ExactArgs(2),
+	Args:    cobra.ExactArgs(2),
 	Example: "meibel blueprints executions query-workflow <blueprint-instance-id> <query-name>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

@@ -8,24 +8,24 @@ import (
 	"os/signal"
 	"path/filepath"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"github.com/meibel-ai/meibel-cli/internal/output"
 	"github.com/meibel-ai/meibel-cli/internal/config"
+	"github.com/meibel-ai/meibel-cli/internal/output"
 	"github.com/meibel-ai/meibel-cli/internal/tui"
+	"github.com/spf13/cobra"
 )
 
 var (
-	documentsParseDocumentFile string
-	documentsParseDocumentTrace bool
+	documentsParseDocumentFile    string
+	documentsParseDocumentTrace   bool
 	documentsParseDocumentBrowser bool
-	documentsParseDocumentWait bool
+	documentsParseDocumentWait    bool
 )
 
 var documentsParseDocumentCmd = &cobra.Command{
-	Use:   "parse",
-	Short: "Parse a document (async)",
-	Long:  `Upload a document for asynchronous parsing. Returns a job ID to track progress.`,
+	Use:     "parse",
+	Short:   "Parse a document (async)",
+	Long:    `Upload a document for asynchronous parsing. Returns a job ID to track progress.`,
 	Example: "meibel documents parse",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

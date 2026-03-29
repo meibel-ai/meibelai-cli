@@ -6,22 +6,22 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	blueprintsCreateBlueprintData string
+	blueprintsCreateBlueprintData        string
 	blueprintsCreateBlueprintInteractive bool
 )
 
 var blueprintsCreateBlueprintCmd = &cobra.Command{
-	Use:   "create",
-	Short: "Create Blueprint",
-	Long:  `Create Blueprint`,
+	Use:     "create",
+	Short:   "Create Blueprint",
+	Long:    `Create Blueprint`,
 	Example: "meibel blueprints create",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

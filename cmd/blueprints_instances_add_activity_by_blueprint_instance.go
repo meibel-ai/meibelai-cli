@@ -6,26 +6,26 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
-	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 var (
-	blueprintsInstancesAddActivityByBlueprintInstanceData string
+	blueprintsInstancesAddActivityByBlueprintInstanceData        string
 	blueprintsInstancesAddActivityByBlueprintInstanceInteractive bool
 )
 
 var blueprintsInstancesAddActivityByBlueprintInstanceCmd = &cobra.Command{
 	Use:   "add-activity-by <blueprint-instance-id>",
 	Short: "Add Activity By Blueprint Instance",
-	Long:  `Add Activity By Blueprint Instance
+	Long: `Add Activity By Blueprint Instance
 
 Arguments:
   blueprint-instance-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel blueprints instances add-activity-by <blueprint-instance-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

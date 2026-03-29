@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/spf13/cobra"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
 )
 
 var (
@@ -15,12 +15,12 @@ var (
 var blueprintsInstancesUpdateActivityStatusCmd = &cobra.Command{
 	Use:   "update-activity-status <blueprint-instance-id> <activity-id>",
 	Short: "Update Activity Status",
-	Long:  `Update Activity Status
+	Long: `Update Activity Status
 
 Arguments:
   blueprint-instance-id: required
   activity-id: required`,
-	Args:  cobra.ExactArgs(2),
+	Args:    cobra.ExactArgs(2),
 	Example: "meibel blueprints instances update-activity-status <blueprint-instance-id> <activity-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

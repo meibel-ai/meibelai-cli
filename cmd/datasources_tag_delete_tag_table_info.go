@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/spf13/cobra"
 )
 
 var (
@@ -15,12 +15,12 @@ var (
 var datasourcesTagDeleteTagTableInfoCmd = &cobra.Command{
 	Use:   "delete-table-info <datasource-id> <table-name>",
 	Short: "Delete Tag Table Info",
-	Long:  `Delete Tag Table Info
+	Long: `Delete Tag Table Info
 
 Arguments:
   datasource-id: required
   table-name: required`,
-	Args:  cobra.ExactArgs(2),
+	Args:    cobra.ExactArgs(2),
 	Example: "meibel datasources tag delete-table-info <datasource-id> <table-name>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

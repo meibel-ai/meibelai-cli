@@ -15,26 +15,26 @@ var (
 	ColorMuted     = lipgloss.Color("#6B7280") // Gray
 
 	// Text colors
-	ColorText     = lipgloss.Color("#F9FAFB") // White
-	ColorSubtle   = lipgloss.Color("#9CA3AF") // Light gray
+	ColorText      = lipgloss.Color("#F9FAFB") // White
+	ColorSubtle    = lipgloss.Color("#9CA3AF") // Light gray
 	ColorHighlight = lipgloss.Color("#FBBF24") // Gold
 )
 
 // Styles defines the visual styles for CLI output.
 var Styles = struct {
 	// Text styles
-	Title     lipgloss.Style
-	Subtitle  lipgloss.Style
-	Bold      lipgloss.Style
-	Muted     lipgloss.Style
-	Success   lipgloss.Style
-	Warning   lipgloss.Style
-	Error     lipgloss.Style
+	Title    lipgloss.Style
+	Subtitle lipgloss.Style
+	Bold     lipgloss.Style
+	Muted    lipgloss.Style
+	Success  lipgloss.Style
+	Warning  lipgloss.Style
+	Error    lipgloss.Style
 
 	// Table styles
-	TableHeader   lipgloss.Style
-	TableCell     lipgloss.Style
-	TableBorder   lipgloss.Style
+	TableHeader lipgloss.Style
+	TableCell   lipgloss.Style
+	TableBorder lipgloss.Style
 
 	// Status indicators
 	StatusActive  lipgloss.Style

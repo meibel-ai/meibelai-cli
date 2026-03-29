@@ -5,23 +5,23 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/spf13/cobra"
 )
 
 var (
-	blueprintsExecutionsStartBlueprintInstanceData string
+	blueprintsExecutionsStartBlueprintInstanceData        string
 	blueprintsExecutionsStartBlueprintInstanceInteractive bool
 )
 
 var blueprintsExecutionsStartBlueprintInstanceCmd = &cobra.Command{
 	Use:   "start-instance <blueprint-instance-id>",
 	Short: "Start Blueprint Instance",
-	Long:  `Start Blueprint Instance
+	Long: `Start Blueprint Instance
 
 Arguments:
   blueprint-instance-id: Unique identifier for the workflow instance`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel blueprints executions start-instance <blueprint-instance-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/spf13/cobra"
 )
 
 var (
@@ -15,11 +15,11 @@ var (
 var datasourcesRagDeleteChunkingStrategyCmd = &cobra.Command{
 	Use:   "delete-chunking-strategy <datasource-id>",
 	Short: "Delete Chunking Strategy",
-	Long:  `Delete Chunking Strategy
+	Long: `Delete Chunking Strategy
 
 Arguments:
   datasource-id: required`,
-	Args:  cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),
 	Example: "meibel datasources rag delete-chunking-strategy <datasource-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

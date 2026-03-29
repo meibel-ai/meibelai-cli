@@ -3,20 +3,20 @@ package cmd
 import (
 	"context"
 
-	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
+	"github.com/spf13/cobra"
 )
 
 var (
-	confidenceScoringGetScoringJobsSummaryPrimary string
+	confidenceScoringGetScoringJobsSummaryPrimary   string
 	confidenceScoringGetScoringJobsSummarySecondary string
 )
 
 var confidenceScoringGetScoringJobsSummaryCmd = &cobra.Command{
 	Use:   "get-jobs-summary",
 	Short: "Get Scoring Jobs Summary",
-	Long:  `Get aggregated scoring summary for the caller's customer.
+	Long: `Get aggregated scoring summary for the caller's customer.
 
 primary: Required filter in format 'field:value' (e.g., 'agent_execution_id:exec_123').
 secondary: Optional secondary filter in format 'field:value' (e.g., 'agent_name:my_agent').
