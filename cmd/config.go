@@ -30,7 +30,6 @@ var configInitCmd = &cobra.Command{
 		var apiKey string
 		var environment string
 		var customURL string
-		var projectID string
 
 		form := huh.NewForm(
 			huh.NewGroup(
@@ -55,10 +54,6 @@ var configInitCmd = &cobra.Command{
 						huh.NewOption[string]("Custom URL", "custom"),
 					).
 					Value(&environment),
-				huh.NewInput().
-					Title("Project ID").
-					Description("Your project ID (e.g. prj_3bXMbz...)").
-					Value(&projectID),
 			),
 		)
 
@@ -103,9 +98,6 @@ var configInitCmd = &cobra.Command{
 		configPath := filepath.Join(configDir, "config.yaml")
 		viper.Set("api_key", apiKey)
 		viper.Set("base_url", baseURL)
-		if projectID != "" {
-			viper.Set("project_id", projectID)
-		}
 		if err := viper.WriteConfigAs(configPath); err != nil {
 			return fmt.Errorf("could not write config: %w", err)
 		}

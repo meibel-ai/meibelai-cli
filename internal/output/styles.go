@@ -4,20 +4,19 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-// Color palette
+// Color palette — uses AdaptiveColor for light/dark terminal support.
+// First value = light background, second = dark background.
 var (
-	// Primary colors
-	ColorPrimary   = lipgloss.Color("#7C3AED") // Purple
-	ColorSecondary = lipgloss.Color("#06B6D4") // Cyan
-	ColorSuccess   = lipgloss.Color("#10B981") // Green
-	ColorWarning   = lipgloss.Color("#F59E0B") // Yellow
-	ColorError     = lipgloss.Color("#EF4444") // Red
-	ColorMuted     = lipgloss.Color("#6B7280") // Gray
+	ColorPrimary   = lipgloss.AdaptiveColor{Light: "#7C3AED", Dark: "#7C3AED"}
+	ColorSecondary = lipgloss.AdaptiveColor{Light: "#0891B2", Dark: "#06B6D4"}
+	ColorSuccess   = lipgloss.AdaptiveColor{Light: "#059669", Dark: "#10B981"}
+	ColorWarning   = lipgloss.AdaptiveColor{Light: "#D97706", Dark: "#F59E0B"}
+	ColorError     = lipgloss.AdaptiveColor{Light: "#DC2626", Dark: "#EF4444"}
+	ColorMuted     = lipgloss.AdaptiveColor{Light: "#6B7280", Dark: "#6B7280"}
 
-	// Text colors
-	ColorText      = lipgloss.Color("#F9FAFB") // White
-	ColorSubtle    = lipgloss.Color("#9CA3AF") // Light gray
-	ColorHighlight = lipgloss.Color("#FBBF24") // Gold
+	ColorText      = lipgloss.AdaptiveColor{Light: "#111827", Dark: "#F9FAFB"}
+	ColorSubtle    = lipgloss.AdaptiveColor{Light: "#6B7280", Dark: "#9CA3AF"}
+	ColorHighlight = lipgloss.AdaptiveColor{Light: "#B45309", Dark: "#FBBF24"}
 )
 
 // Styles defines the visual styles for CLI output.
@@ -46,7 +45,6 @@ var Styles = struct {
 	URL     lipgloss.Style
 	Spinner lipgloss.Style
 }{
-	// Text styles
 	Title: lipgloss.NewStyle().
 		Bold(true).
 		Foreground(ColorText).
@@ -82,7 +80,6 @@ var Styles = struct {
 		BorderForeground(ColorMuted),
 
 	TableCell: lipgloss.NewStyle().
-		Foreground(ColorText).
 		Padding(0, 1),
 
 	TableBorder: lipgloss.NewStyle().
@@ -101,7 +98,6 @@ var Styles = struct {
 
 	// Misc
 	Code: lipgloss.NewStyle().
-		Background(lipgloss.Color("#1F2937")).
 		Foreground(ColorSecondary).
 		Padding(0, 1),
 
