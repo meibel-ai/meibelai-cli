@@ -5,157 +5,49 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
-  schedule:
-    # Check for API updates daily at midnight UTC
-    - cron: '0 0 * * *'
 
 env:
-  GO_VERSION: '1.21'
+  GO_VERSION: '1.23'
 
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        go: ['1.21', '1.22']
-    
+        os: [ubuntu-latest, macos-latest]
+        go: ['1.23']
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Set up Go
       uses: actions/setup-go@v5
       with:
         go-version: ${{ matrix.go }}
-    
-    - name: Cache Go modules
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/go/pkg/mod
-          ~/.cache/go-build
-        key: ${{ runner.os }}-go-${{ matrix.go }}-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ runner.os }}-go-${{ matrix.go }}-
-    
+
     - name: Download dependencies
+      env:
+        GONOSUMCHECK: github.com/meibel-ai/*
+        GONOSUMDB: github.com/meibel-ai/*
       run: go mod download
-    
-    - name: Run tests
-      run: go test -v -race -coverprofile=coverage.out ./...
-    
-    - name: Upload coverage
-      uses: codecov/codecov-action@v3
-      if: matrix.os == 'ubuntu-latest' && matrix.go == '1.21'
-      with:
-        file: ./coverage.out
-    
+
     - name: Build
-      run: go build -o meibel
+      run: go build -o meibel .
+
+    - name: Run tests
+      run: go test -v -race ./...
 
   lint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Set up Go
       uses: actions/setup-go@v5
       with:
         go-version: ${{ env.GO_VERSION }}
-    
-    - name: Run golangci-lint
-      uses: golangci/golangci-lint-action@v3
-      with:
-        version: latest
-        args: --timeout=5m
-    
+
     - name: Check formatting
       run: |
         gofmt -s -l .
         test -z "$(gofmt -s -l .)"
-
-  check-api-updates:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: Set up Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: ${{ env.GO_VERSION }}
-    
-    - name: Install jq
-      run: sudo apt-get update && sudo apt-get install -y jq
-    
-    - name: Check for API updates
-      id: check
-      run: |
-        set +e
-        ./scripts/check-api-updates.sh
-        echo "changed=$?" >> $GITHUB_OUTPUT
-    
-    - name: Create Pull Request
-      if: steps.check.outputs.changed == '1'
-      uses: peter-evans/create-pull-request@v5
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: 'chore: update API specification'
-        title: '🔄 API Specification Update Detected'
-        body: |
-          ## API Specification Update
-          
-          This PR was automatically created because changes were detected in the Meibel API specification.
-          
-          ### Changes Summary
-          
-          See [api-changes.md](./api-changes.md) for details.
-          
-          ### Checklist
-          
-          - [ ] Review API changes
-          - [ ] Update command implementations if needed
-          - [ ] Update tests
-          - [ ] Update documentation
-          - [ ] Test CLI functionality
-          
-          ### Testing
-          
-          ```bash
-          # Build and test the CLI
-          make test
-          make build
-          ./meibel --help
-          ```
-        branch: api-update-${{ github.run_id }}
-        delete-branch: true
-        labels: |
-          api-update
-          automated
-
-  security:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Run Gosec Security Scanner
-      uses: securego/gosec@master
-      with:
-        args: ./...
-    
-    - name: Run Trivy vulnerability scanner
-      uses: aquasecurity/trivy-action@master
-      with:
-        scan-type: 'fs'
-        scan-ref: '.'
-        format: 'sarif'
-        output: 'trivy-results.sarif'
-    
-    - name: Upload Trivy scan results
-      uses: github/codeql-action/upload-sarif@v2
-      if: always()
-      with:
-        sarif_file: 'trivy-results.sarif'

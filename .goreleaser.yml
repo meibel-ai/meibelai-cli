@@ -229,31 +229,12 @@ docker_manifests:
       - "meibelai/cli:latest-amd64"
       - "meibelai/cli:latest-arm64"
 
-# Snapcraft
-snapcrafts:
-  - id: meibel
-    name: meibel
-    publish: true
-    summary: CLI for interacting with Meibel AI API
-    description: |
-      A command-line interface generated from the Meibel AI OpenAPI specification.
-      
-      Features:
-      - Auto-generated commands from OpenAPI spec
-      - Multiple authentication methods
-      - Multiple output formats (JSON, YAML, Table)
-      - Configuration profiles
-      - Dry-run mode
-    grade: stable
-    confinement: strict
-    license: MIT
-    base: core20
-    apps:
-      meibel:
-        command: meibel
-        plugs:
-          - network
-          - home
+# Snapcraft (disabled for beta)
+# snapcrafts:
+#   - id: meibel
+#     name: meibel
+#     publish: true
+#     summary: CLI for interacting with Meibel AI API
 
 # GitHub Release
 release:
