@@ -1,0 +1,75 @@
+package cmd
+
+import (
+	"context"
+	"fmt"
+	"os"
+	"path/filepath"
+
+	"github.com/spf13/cobra"
+	"github.com/charmbracelet/huh"
+	"github.com/meibel-ai/meibel-cli/internal/output"
+)
+
+var (
+	contentUploadContentFile string
+)
+
+var contentUploadContentCmd = &cobra.Command{
+	Use:   "upload <datasource-id>",
+	Short: "Upload Content",
+	Long:  `Upload Content
+
+Arguments:
+  datasource-id: required`,
+	Args:  cobra.ExactArgs(1),
+	Example: "meibel content upload <datasource-id>",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ctx := context.Background()
+
+		datasourceId := args[0]
+
+		if contentUploadContentFile == "" {
+			home, _ := os.UserHomeDir()
+			if home == "" {
+				home, _ = os.Getwd()
+			}
+			picker := huh.NewFilePicker().
+				Title("Select a file").
+				CurrentDirectory(home).
+				FileAllowed(true).
+				DirAllowed(false).
+				ShowHidden(false).
+				ShowSize(true).
+				ShowPermissions(false).
+				Height(15).
+				Value(&contentUploadContentFile)
+			if err := huh.NewForm(huh.NewGroup(picker)).Run(); err != nil {
+				return err
+			}
+			if contentUploadContentFile == "" {
+				return fmt.Errorf("no file selected")
+			}
+		}
+
+		f, err := os.Open(contentUploadContentFile)
+		if err != nil {
+			return fmt.Errorf("failed to open file: %w", err)
+		}
+		defer f.Close()
+
+		result, err := client.Content.UploadContent(ctx, datasourceId, f, filepath.Base(contentUploadContentFile))
+		if err != nil {
+			return err
+		}
+
+		return output.Print(result)
+	},
+}
+
+func init() {
+	contentCmd.AddCommand(contentUploadContentCmd)
+
+	contentUploadContentCmd.Flags().StringVarP(&contentUploadContentFile, "file", "f", "", "path to file to upload (interactive picker if omitted)")
+	contentUploadContentCmd.MarkFlagFilename("file")
+}

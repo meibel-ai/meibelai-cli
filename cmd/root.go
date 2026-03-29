@@ -4,74 +4,81 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/meibel-ai/meibel-cli/internal/client"
-	"github.com/meibel-ai/meibel-cli/internal/config"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/meibel-ai/meibel-cli/internal/config"
+	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/meibel-ai/meibel-cli/internal/version"
+	sdk "github.com/meibel-ai/meibel-go"
 )
 
 var (
 	cfgFile string
-	rootCmd = &cobra.Command{
-		Use:   "meibel",
-		Short: "CLI for interacting with Meibel AI API",
-		Long:  `A command-line interface for the Meibel AI API with both generated and custom commands.`,
-	}
+	jsonOutput bool
+	debug bool
+	client *sdk.MeibelgoClient
 )
 
-func Execute() error {
-	return rootCmd.Execute()
+var rootCmd = &cobra.Command{
+	Use:   "meibel",
+	Short: "meibel CLI",
+	Long: `The Meibel API provides document parsing, datasource management, and AI agent orchestration.`,
+	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+		// Initialize configuration
+		if err := config.Init(cfgFile); err != nil {
+			return err
+		}
+
+		// Initialize SDK client
+		opts := []sdk.ClientOption{}
+
+		if baseURL := viper.GetString("base_url"); baseURL != "" {
+			opts = append(opts, sdk.WithBaseURL(baseURL))
+		}
+
+		if apiKey := viper.GetString("api_key"); apiKey != "" {
+			opts = append(opts, sdk.WithAPIKey(apiKey))
+		}
+
+		if token := viper.GetString("token"); token != "" {
+			opts = append(opts, sdk.WithBearerToken(token))
+		}
+
+		client = sdk.NewClient(opts...)
+
+		// Set output format
+		if jsonOutput {
+			output.SetFormat(output.FormatJSON)
+		}
+
+		return nil
+	},
+}
+
+// Execute runs the root command.
+func Execute() {
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+}
+
+var versionCmd = &cobra.Command{
+	Use:   "version",
+	Short: "Print the version of meibel CLI",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Printf("meibel %s (commit: %s, built: %s)\n", version.Version, version.Commit, version.BuildDate)
+	},
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
-
-	// Global flags
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.meibel.yaml)")
-	rootCmd.PersistentFlags().String("api-key", "", "API key for authentication")
-	rootCmd.PersistentFlags().String("server", "", "API server URL")
-	rootCmd.PersistentFlags().String("output", "json", "Output format (json, yaml, table)")
-	rootCmd.PersistentFlags().Bool("dry-run", false, "Preview the request without executing")
-	rootCmd.PersistentFlags().String("profile", "default", "Configuration profile to use")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.meibel/config.yaml)")
+	rootCmd.PersistentFlags().BoolVar(&jsonOutput, "json", false, "output as JSON")
+	rootCmd.PersistentFlags().BoolVar(&debug, "debug", false, "enable debug logging")
 
 	// Bind flags to viper
-	viper.BindPFlag("api_key", rootCmd.PersistentFlags().Lookup("api-key"))
-	viper.BindPFlag("server", rootCmd.PersistentFlags().Lookup("server"))
-	viper.BindPFlag("output", rootCmd.PersistentFlags().Lookup("output"))
-	viper.BindPFlag("profile", rootCmd.PersistentFlags().Lookup("profile"))
+	viper.BindPFlag("json", rootCmd.PersistentFlags().Lookup("json"))
+	viper.BindPFlag("debug", rootCmd.PersistentFlags().Lookup("debug"))
 
-	// Initialize commands
-	httpClient := client.New()
-
-	// Register custom commands (non-generated)
-	RegisterCustomCommands(rootCmd, httpClient)
-
-	// Register generated commands from OpenAPI
-	RegisterGeneratedCommands(rootCmd, httpClient)
-}
-
-func initConfig() {
-	cfg := config.New()
-	if err := cfg.Load(cfgFile); err != nil {
-		fmt.Fprintf(os.Stderr, "Error loading config: %v\n", err)
-	}
-}
-
-// RegisterCustomCommands adds all hand-written commands
-func RegisterCustomCommands(rootCmd *cobra.Command, httpClient *client.Client) {
-	// Add auth command
-	rootCmd.AddCommand(authCmd)
-
-	// Add config command
-	rootCmd.AddCommand(configCmd)
-
-	// Add version command
 	rootCmd.AddCommand(versionCmd)
-
-	// Add any other custom commands here
-	// Examples:
-	// - batch processing commands
-	// - export/import commands
-	// - interactive setup commands
-	// - debug/troubleshooting commands
 }

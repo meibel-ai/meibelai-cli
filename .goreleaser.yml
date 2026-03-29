@@ -259,7 +259,7 @@ snapcrafts:
 release:
   github:
     owner: meibel-ai
-    name: meibel-cli
+    name: meibelai-cli
   name_template: "{{.ProjectName}}-v{{.Version}}"
   prerelease: auto
   mode: append

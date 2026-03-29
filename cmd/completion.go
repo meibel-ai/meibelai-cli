@@ -8,11 +8,12 @@ import (
 
 var completionCmd = &cobra.Command{
 	Use:   "completion [bash|zsh|fish|powershell]",
-	Short: "Generate completion script",
-	Long: `To load completions:
+	Short: "Generate shell completion scripts",
+	Long: `Generate shell completion scripts for meibel.
+
+To load completions:
 
 Bash:
-
   $ source <(meibel completion bash)
 
   # To load completions for each session, execute once:
@@ -22,10 +23,8 @@ Bash:
   $ meibel completion bash > $(brew --prefix)/etc/bash_completion.d/meibel
 
 Zsh:
-
   # If shell completion is not already enabled in your environment,
-  # you will need to enable it.  You can execute the following once:
-
+  # you will need to enable it. Execute the following once:
   $ echo "autoload -U compinit; compinit" >> ~/.zshrc
 
   # To load completions for each session, execute once:
@@ -34,14 +33,12 @@ Zsh:
   # You will need to start a new shell for this setup to take effect.
 
 Fish:
-
   $ meibel completion fish | source
 
   # To load completions for each session, execute once:
   $ meibel completion fish > ~/.config/fish/completions/meibel.fish
 
 PowerShell:
-
   PS> meibel completion powershell | Out-String | Invoke-Expression
 
   # To load completions for every new session, run:
@@ -51,17 +48,18 @@ PowerShell:
 	DisableFlagsInUseLine: true,
 	ValidArgs:             []string{"bash", "zsh", "fish", "powershell"},
 	Args:                  cobra.MatchAll(cobra.ExactArgs(1), cobra.OnlyValidArgs),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		switch args[0] {
 		case "bash":
-			cmd.Root().GenBashCompletion(os.Stdout)
+			return cmd.Root().GenBashCompletion(os.Stdout)
 		case "zsh":
-			cmd.Root().GenZshCompletion(os.Stdout)
+			return cmd.Root().GenZshCompletion(os.Stdout)
 		case "fish":
-			cmd.Root().GenFishCompletion(os.Stdout, true)
+			return cmd.Root().GenFishCompletion(os.Stdout, true)
 		case "powershell":
-			cmd.Root().GenPowerShellCompletionWithDesc(os.Stdout)
+			return cmd.Root().GenPowerShellCompletionWithDesc(os.Stdout)
 		}
+		return nil
 	},
 }
 

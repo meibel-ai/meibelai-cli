@@ -8,102 +8,58 @@ import (
 	"github.com/spf13/viper"
 )
 
-type Config struct {
-	v *viper.Viper
-}
-
-func New() *Config {
-	return &Config{
-		v: viper.GetViper(),
-	}
-}
-
-func (c *Config) Load(cfgFile string) error {
+// Init initializes the configuration.
+// It reads from the config file if provided, otherwise looks in default locations.
+func Init(cfgFile string) error {
 	if cfgFile != "" {
-		c.v.SetConfigFile(cfgFile)
+		// Use config file from the flag
+		viper.SetConfigFile(cfgFile)
 	} else {
+		// Find home directory
 		home, err := os.UserHomeDir()
 		if err != nil {
-			return fmt.Errorf("failed to get home directory: %w", err)
+			return fmt.Errorf("could not find home directory: %w", err)
 		}
 
-		c.v.AddConfigPath(home)
-		c.v.AddConfigPath(".")
-		c.v.SetConfigName(".meibel")
-		c.v.SetConfigType("yaml")
+		// Search config in $HOME/.appname
+		configDir := filepath.Join(home, ".meibel")
+		viper.AddConfigPath(configDir)
+		viper.AddConfigPath(".")
+		viper.SetConfigType("yaml")
+		viper.SetConfigName("config")
 	}
 
-	c.v.SetEnvPrefix("MEIBEL")
-	c.v.AutomaticEnv()
+	// Read environment variables
+	viper.SetEnvPrefix("meibel")
+	viper.AutomaticEnv()
 
-	c.setDefaults()
-
-	if err := c.v.ReadInConfig(); err != nil {
+	// Read in config file if it exists
+	if err := viper.ReadInConfig(); err != nil {
+		// It's okay if config file doesn't exist
 		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
-			return fmt.Errorf("failed to read config file: %w", err)
+			return fmt.Errorf("error reading config file: %w", err)
 		}
 	}
 
 	return nil
 }
 
-func (c *Config) setDefaults() {
-	c.v.SetDefault("server", "http://api.meibel.ai")
-	c.v.SetDefault("output", "json")
-	c.v.SetDefault("profile", "default")
+// GetString returns a string config value.
+func GetString(key string) string {
+	return viper.GetString(key)
 }
 
-func (c *Config) Get(key string) interface{} {
-	profile := c.v.GetString("profile")
-	if profile != "" && profile != "default" {
-		profileKey := fmt.Sprintf("profiles.%s.%s", profile, key)
-		if c.v.IsSet(profileKey) {
-			return c.v.Get(profileKey)
-		}
-	}
-	return c.v.Get(key)
+// GetInt returns an int config value.
+func GetInt(key string) int {
+	return viper.GetInt(key)
 }
 
-func (c *Config) GetString(key string) string {
-	val := c.Get(key)
-	if s, ok := val.(string); ok {
-		return s
-	}
-	return ""
+// GetBool returns a bool config value.
+func GetBool(key string) bool {
+	return viper.GetBool(key)
 }
 
-func (c *Config) Set(key string, value interface{}) {
-	profile := c.v.GetString("profile")
-	if profile != "" && profile != "default" {
-		key = fmt.Sprintf("profiles.%s.%s", profile, key)
-	}
-	c.v.Set(key, value)
-}
-
-func (c *Config) Save() error {
-	configFile := c.v.ConfigFileUsed()
-	if configFile == "" {
-		home, err := os.UserHomeDir()
-		if err != nil {
-			return fmt.Errorf("failed to get home directory: %w", err)
-		}
-		configFile = filepath.Join(home, ".meibel.yaml")
-	}
-
-	if err := c.v.WriteConfigAs(configFile); err != nil {
-		return fmt.Errorf("failed to save config: %w", err)
-	}
-
-	return nil
-}
-
-func (c *Config) ListProfiles() []string {
-	profiles := []string{"default"}
-
-	profilesMap := c.v.GetStringMap("profiles")
-	for name := range profilesMap {
-		profiles = append(profiles, name)
-	}
-
-	return profiles
+// Set sets a config value.
+func Set(key string, value interface{}) {
+	viper.Set(key, value)
 }
