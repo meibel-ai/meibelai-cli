@@ -12,7 +12,7 @@ import (
 	"github.com/meibel-ai/meibel-cli/internal/config"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	"github.com/meibel-ai/meibel-cli/internal/tui"
-	sdk "github.com/meibel-ai/meibel-go"
+	meibelgo "github.com/meibel-ai/meibel-go"
 	"github.com/spf13/cobra"
 )
 
@@ -61,12 +61,11 @@ var documentsProcessDocumentCmd = &cobra.Command{
 		}
 		defer f.Close()
 
-		opts := &sdk.ProcessDocumentOptions{}
+		var processOpts *meibelgo.ProcessDocumentOptions
 		if documentsProcessDocumentFormat != "" {
-			opts.Format = &documentsProcessDocumentFormat
+			processOpts = &meibelgo.ProcessDocumentOptions{Format: &documentsProcessDocumentFormat}
 		}
-
-		result, err := client.Documents.ProcessDocument(ctx, f, filepath.Base(documentsProcessDocumentFile), opts)
+		result, err := client.Documents.ProcessDocument(ctx, f, filepath.Base(documentsProcessDocumentFile), processOpts)
 		if err != nil {
 			return err
 		}

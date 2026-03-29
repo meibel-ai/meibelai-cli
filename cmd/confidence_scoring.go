@@ -6,8 +6,8 @@ import (
 
 var confidenceScoringCmd = &cobra.Command{
 	Use:   "confidence-scoring",
-	Short: "Manage confidence_scoring",
-	Long:  `Commands for managing confidence_scoring resources.`,
+	Short: "Manage Confidence Scoring",
+	Long:  `Commands for managing Confidence Scoring resources.`,
 }
 
 func init() {

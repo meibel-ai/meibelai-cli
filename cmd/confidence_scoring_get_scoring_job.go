@@ -10,7 +10,7 @@ import (
 var confidenceScoringGetScoringJobCmd = &cobra.Command{
 	Use:   "get-job <job-id>",
 	Short: "Get Scoring Job",
-	Long: `Get a scoring job by ID. Returns 403 if the job does not belong to the caller's customer.
+	Long: `Get Scoring Job
 
 Arguments:
   job-id: required`,

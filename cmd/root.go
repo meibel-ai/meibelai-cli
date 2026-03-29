@@ -72,6 +72,7 @@ var versionCmd = &cobra.Command{
 }
 
 func init() {
+	rootCmd.AddCommand(versionCmd)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.meibel/config.yaml)")
 	rootCmd.PersistentFlags().BoolVar(&jsonOutput, "json", false, "output as JSON")
 	rootCmd.PersistentFlags().BoolVar(&debug, "debug", false, "enable debug logging")
@@ -79,6 +80,4 @@ func init() {
 	// Bind flags to viper
 	viper.BindPFlag("json", rootCmd.PersistentFlags().Lookup("json"))
 	viper.BindPFlag("debug", rootCmd.PersistentFlags().Lookup("debug"))
-
-	rootCmd.AddCommand(versionCmd)
 }

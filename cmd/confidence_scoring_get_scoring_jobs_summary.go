@@ -14,13 +14,9 @@ var (
 )
 
 var confidenceScoringGetScoringJobsSummaryCmd = &cobra.Command{
-	Use:   "get-jobs-summary",
-	Short: "Get Scoring Jobs Summary",
-	Long: `Get aggregated scoring summary for the caller's customer.
-
-primary: Required filter in format 'field:value' (e.g., 'agent_execution_id:exec_123').
-secondary: Optional secondary filter in format 'field:value' (e.g., 'agent_name:my_agent').
-Results are always scoped to the caller's customer_id.`,
+	Use:     "get-jobs-summary",
+	Short:   "Get Scoring Jobs Summary",
+	Long:    `Get Scoring Jobs Summary`,
 	Example: "meibel confidence-scoring get-jobs-summary --secondary=<value>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()
