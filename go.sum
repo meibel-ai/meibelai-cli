@@ -88,8 +88,8 @@ github.com/mattn/go-localereader v0.0.1/go.mod h1:8fBrzywKY7BI3czFoHkuzRoWE9C+Ei
 github.com/mattn/go-runewidth v0.0.12/go.mod h1:RAqKPSqVFrSLVXbA8x7dzmKdmGzieGRCM46jaSJTDAk=
 github.com/mattn/go-runewidth v0.0.16 h1:E5ScNMtiwvlvB5paMFdw9p4kSQzbXFikJ5SQO6TULQc=
 github.com/mattn/go-runewidth v0.0.16/go.mod h1:Jdepj2loyihRzMpdS35Xk/zdY8IAYHsh153qUoGf23w=
-github.com/meibel-ai/meibel-go v0.1.0-beta.1 h1:li/XwFsEFaDbME1BnCQdfgBKa+VyxQqr2TLALuFLG6g=
-github.com/meibel-ai/meibel-go v0.1.0-beta.1/go.mod h1:JX7HQaPAVxPHvEVnzBqisXM/m/FAAo0So8JS3ilijGA=
+github.com/meibel-ai/meibel-go v0.1.0-beta.2 h1:TmtyReXPg2Knx5dWm5blWmjNRz/OkGiX4x42WUFIdkc=
+github.com/meibel-ai/meibel-go v0.1.0-beta.2/go.mod h1:JX7HQaPAVxPHvEVnzBqisXM/m/FAAo0So8JS3ilijGA=
 github.com/microcosm-cc/bluemonday v1.0.27 h1:MpEUotklkwCSLeH+Qdx1VJgNqLlpY2KXwXFM08ygZfk=
 github.com/microcosm-cc/bluemonday v1.0.27/go.mod h1:jFi9vgW+H7c3V0lb6nR74Ib/DIB5OBs92Dimizgw2cA=
 github.com/mitchellh/hashstructure/v2 v2.0.2 h1:vGKWl0YJqUNxE8d+h8f6NJLcCJrgbhC4NcD46KavDd4=
