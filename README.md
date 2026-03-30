@@ -1,6 +1,6 @@
 # Meibel CLI
 
-A command-line interface for the [Meibel API](https://docs.meibel.ai), generated from the OpenAPI specification using [Forge](https://github.com/meibel-ai/forge).
+A command-line interface for the [Meibel API](https://docs.meibel.ai).
 
 ## Installation
 
@@ -13,7 +13,7 @@ brew install meibel-ai/tap/meibel
 ### Go Install
 
 ```bash
-go install github.com/meibel-ai/meibel-cli@latest
+go install github.com/meibel-ai/meibelai-cli@latest
 ```
 
 ### Download Binaries
@@ -33,52 +33,66 @@ sudo rpm -i meibel_*_linux_amd64.rpm
 ## Quick Start
 
 ```bash
-# Configure authentication
-meibel config set api_key "your-api-key"
-meibel config set base_url "https://api.meibel.ai/v2"
+# Configure authentication (interactive wizard)
+meibel config init
 
 # Parse a document
-meibel documents parse-document --file document.pdf
+meibel documents parse --file document.pdf
 
-# Process a document synchronously
-meibel documents process-document --file document.pdf
+# Parse and wait for result
+meibel documents parse --file document.pdf --wait
 
 # List datasources
-meibel datasources list-datasources --json
+meibel datasources list
 
 # Get help
 meibel --help
 meibel documents --help
 ```
 
-## Configuration
+## Authentication
 
-Configuration is stored in `~/.meibel/config.yaml`.
+The CLI reads your API key from the config file or environment variables.
+
+### Interactive Setup
 
 ```bash
-# Set values
-meibel config set api_key "your-key"
-meibel config set base_url "https://api.meibel.ai/v2"
-
-# View config
-meibel config
+meibel config init
 ```
 
-Or use environment variables:
+This prompts for your API key and environment (production, dev, local, or custom URL).
+
+### Environment Variables
 
 ```bash
 export MEIBEL_API_KEY="your-api-key"
-export MEIBEL_BASE_URL="https://api.meibel.ai/v2"
+export MEIBEL_BASE_URL="https://api.meibel.ai/v2"   # optional
+export MEIBEL_TOKEN="your-bearer-token"              # alternative to API key
+```
+
+### Config File
+
+Configuration is stored in `~/.meibel/config.yaml`:
+
+```yaml
+api_key: your-api-key
+base_url: https://api.meibel.ai/v2
+```
+
+View your current config:
+
+```bash
+meibel config show
 ```
 
 ## Output Formats
 
 ```bash
-# JSON output (default)
-meibel datasources list-datasources --json
+# Table output (default)
+meibel datasources list
 
-# Table output
-meibel datasources list-datasources
+# JSON output
+meibel datasources list --json
 ```
 
 ## Shell Completions
@@ -97,7 +111,7 @@ meibel completion fish > ~/.config/fish/completions/meibel.fish
 ## Documentation
 
 - [API Reference](https://docs.meibel.ai/api-reference/overview)
-- [SDK Guides](https://docs.meibel.ai/sdk/go)
+- [CLI Guide](https://docs.meibel.ai/sdk/cli)
 
 ## License
 
