@@ -10,12 +10,12 @@ import (
 var contentDownloadContentCmd = &cobra.Command{
 	Use:   "download <datasource-id> <path>",
 	Short: "Download Content",
-	Long: `Download Content
+	Long:  `Download Content
 
 Arguments:
   datasource-id: required
   path: required`,
-	Args:    cobra.ExactArgs(2),
+	Args:  cobra.ExactArgs(2),
 	Example: "meibel content download <datasource-id> <path>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

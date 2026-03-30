@@ -8,16 +8,27 @@ import (
 )
 
 // PrintMarkdown extracts a field from result and renders it as terminal markdown.
-// If field is ".", treats the entire result as markdown when it's a string.
-// Returns false if the field wasn't a string (caller should fall back to Print).
+// If field is ".", treats the entire result as markdown when it's a string or *string.
+// Returns false if not in a terminal, the field wasn't a string, or rendering failed
+// (caller should fall back to Print).
 func PrintMarkdown(result interface{}, field string) bool {
+	if !IsTerminal() {
+		return false
+	}
+
 	var md string
 	if field == "." {
-		s, ok := result.(string)
-		if !ok {
+		switch v := result.(type) {
+		case string:
+			md = v
+		case *string:
+			if v == nil {
+				return false
+			}
+			md = *v
+		default:
 			return false
 		}
-		md = s
 	} else {
 		b, err := json.Marshal(result)
 		if err != nil {
@@ -33,7 +44,7 @@ func PrintMarkdown(result interface{}, field string) bool {
 		}
 		md = s
 	}
-	rendered, err := glamour.Render(md, "dark")
+	rendered, err := glamour.Render(md, "auto")
 	if err != nil {
 		return false
 	}

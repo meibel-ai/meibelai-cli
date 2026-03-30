@@ -6,27 +6,27 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
+	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
-	"github.com/spf13/cobra"
-	"golang.org/x/term"
 )
 
 var (
-	dataElementMetadataUpdateDataElementMetadataData        string
+	dataElementMetadataUpdateDataElementMetadataData string
 	dataElementMetadataUpdateDataElementMetadataInteractive bool
 )
 
 var dataElementMetadataUpdateDataElementMetadataCmd = &cobra.Command{
 	Use:   "update <datasource-id> <data-element-id>",
 	Short: "Update Data Element Metadata",
-	Long: `Update Data Element Metadata
+	Long:  `Update Data Element Metadata
 
 Arguments:
   datasource-id: required
   data-element-id: required`,
-	Args:    cobra.ExactArgs(2),
+	Args:  cobra.ExactArgs(2),
 	Example: "meibel data-element-metadata update <datasource-id> <data-element-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

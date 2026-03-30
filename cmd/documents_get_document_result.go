@@ -3,9 +3,9 @@ package cmd
 import (
 	"context"
 
+	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
-	"github.com/spf13/cobra"
 )
 
 var (
@@ -15,11 +15,11 @@ var (
 var documentsGetDocumentResultCmd = &cobra.Command{
 	Use:   "get-result <job-id>",
 	Short: "Get parsed document result",
-	Long: `Download the parsed result of a completed document parsing job.
+	Long:  `Download the parsed result of a completed document parsing job.
 
 Arguments:
   job-id: required`,
-	Args:    cobra.ExactArgs(1),
+	Args:  cobra.ExactArgs(1),
 	Example: "meibel documents get-result <job-id> --format=<value>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()
@@ -36,7 +36,10 @@ Arguments:
 			return err
 		}
 
-		return output.Print(result)
+		if !output.PrintMarkdown(result, ".") {
+			return output.Print(result)
+		}
+		return nil
 	},
 }
 

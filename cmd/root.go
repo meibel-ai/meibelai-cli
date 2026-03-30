@@ -4,25 +4,24 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/meibel-ai/meibel-cli/internal/config"
-	"github.com/meibel-ai/meibel-cli/internal/output"
-	"github.com/meibel-ai/meibel-cli/internal/version"
-	sdk "github.com/meibel-ai/meibel-go"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/meibel-ai/meibel-cli/internal/config"
+	"github.com/meibel-ai/meibel-cli/internal/output"
+	sdk "github.com/meibel-ai/meibel-go"
 )
 
 var (
-	cfgFile    string
+	cfgFile string
 	jsonOutput bool
-	debug      bool
-	client     *sdk.MeibelgoClient
+	debug bool
+	client *sdk.MeibelgoClient
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "meibel",
 	Short: "meibel CLI",
-	Long:  `The Meibel API provides document parsing, datasource management, and AI agent orchestration.`,
+	Long: `The Meibel API provides document parsing, datasource management, and AI agent orchestration.`,
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		// Initialize configuration
 		if err := config.Init(cfgFile); err != nil {
@@ -63,16 +62,7 @@ func Execute() {
 	}
 }
 
-var versionCmd = &cobra.Command{
-	Use:   "version",
-	Short: "Print the version of meibel CLI",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("meibel %s (commit: %s, built: %s)\n", version.Version, version.Commit, version.BuildDate)
-	},
-}
-
 func init() {
-	rootCmd.AddCommand(versionCmd)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.meibel/config.yaml)")
 	rootCmd.PersistentFlags().BoolVar(&jsonOutput, "json", false, "output as JSON")
 	rootCmd.PersistentFlags().BoolVar(&debug, "debug", false, "enable debug logging")

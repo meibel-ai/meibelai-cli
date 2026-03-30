@@ -4,36 +4,37 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-// Color palette — uses AdaptiveColor for light/dark terminal support.
-// First value = light background, second = dark background.
+// Color palette — adaptive for light and dark terminals
 var (
-	ColorPrimary   = lipgloss.AdaptiveColor{Light: "#7C3AED", Dark: "#7C3AED"}
-	ColorSecondary = lipgloss.AdaptiveColor{Light: "#0891B2", Dark: "#06B6D4"}
-	ColorSuccess   = lipgloss.AdaptiveColor{Light: "#059669", Dark: "#10B981"}
-	ColorWarning   = lipgloss.AdaptiveColor{Light: "#D97706", Dark: "#F59E0B"}
-	ColorError     = lipgloss.AdaptiveColor{Light: "#DC2626", Dark: "#EF4444"}
-	ColorMuted     = lipgloss.AdaptiveColor{Light: "#6B7280", Dark: "#6B7280"}
+	// Primary colors
+	ColorPrimary    = lipgloss.AdaptiveColor{Light: "#7C3AED", Dark: "#7C3AED"} // Purple
+	ColorSecondary  = lipgloss.AdaptiveColor{Light: "#0891B2", Dark: "#06B6D4"} // Cyan
+	ColorSuccess    = lipgloss.AdaptiveColor{Light: "#059669", Dark: "#10B981"} // Green
+	ColorWarning    = lipgloss.AdaptiveColor{Light: "#D97706", Dark: "#F59E0B"} // Yellow
+	ColorError      = lipgloss.AdaptiveColor{Light: "#DC2626", Dark: "#EF4444"} // Red
+	ColorMuted      = lipgloss.AdaptiveColor{Light: "#6B7280", Dark: "#6B7280"} // Gray
 
+	// Text colors
 	ColorText      = lipgloss.AdaptiveColor{Light: "#111827", Dark: "#F9FAFB"}
 	ColorSubtle    = lipgloss.AdaptiveColor{Light: "#6B7280", Dark: "#9CA3AF"}
-	ColorHighlight = lipgloss.AdaptiveColor{Light: "#B45309", Dark: "#FBBF24"}
+	ColorHighlight = lipgloss.AdaptiveColor{Light: "#D97706", Dark: "#FBBF24"} // Gold
 )
 
 // Styles defines the visual styles for CLI output.
 var Styles = struct {
 	// Text styles
-	Title    lipgloss.Style
-	Subtitle lipgloss.Style
-	Bold     lipgloss.Style
-	Muted    lipgloss.Style
-	Success  lipgloss.Style
-	Warning  lipgloss.Style
-	Error    lipgloss.Style
+	Title     lipgloss.Style
+	Subtitle  lipgloss.Style
+	Bold      lipgloss.Style
+	Muted     lipgloss.Style
+	Success   lipgloss.Style
+	Warning   lipgloss.Style
+	Error     lipgloss.Style
 
 	// Table styles
-	TableHeader lipgloss.Style
-	TableCell   lipgloss.Style
-	TableBorder lipgloss.Style
+	TableHeader   lipgloss.Style
+	TableCell     lipgloss.Style
+	TableBorder   lipgloss.Style
 
 	// Status indicators
 	StatusActive  lipgloss.Style
@@ -45,6 +46,7 @@ var Styles = struct {
 	URL     lipgloss.Style
 	Spinner lipgloss.Style
 }{
+	// Text styles
 	Title: lipgloss.NewStyle().
 		Bold(true).
 		Foreground(ColorText).

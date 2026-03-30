@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/meibel-ai/meibel-cli/internal/output"
 	"github.com/spf13/cobra"
+	"github.com/meibel-ai/meibel-cli/internal/output"
 )
 
 var (
@@ -15,11 +15,11 @@ var (
 var datasourcesDeleteDatasourceCmd = &cobra.Command{
 	Use:   "delete <datasource-id>",
 	Short: "Delete Datasource",
-	Long: `Delete Datasource
+	Long:  `Delete Datasource
 
 Arguments:
   datasource-id: required`,
-	Args:    cobra.ExactArgs(1),
+	Args:  cobra.ExactArgs(1),
 	Example: "meibel datasources delete <datasource-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

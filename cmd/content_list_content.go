@@ -3,25 +3,25 @@ package cmd
 import (
 	"context"
 
+	"github.com/spf13/cobra"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
-	"github.com/spf13/cobra"
 )
 
 var (
-	contentListContentPrefix            string
+	contentListContentPrefix string
 	contentListContentContinuationToken string
-	contentListContentLimit             int64
+	contentListContentLimit int64
 )
 
 var contentListContentCmd = &cobra.Command{
 	Use:   "list <datasource-id>",
 	Short: "List Content",
-	Long: `List Content
+	Long:  `List Content
 
 Arguments:
   datasource-id: required`,
-	Args:    cobra.ExactArgs(1),
+	Args:  cobra.ExactArgs(1),
 	Example: "meibel content list <datasource-id> --prefix=<value> --continuation-token=<value>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

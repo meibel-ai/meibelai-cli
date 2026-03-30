@@ -3,18 +3,18 @@ package cmd
 import (
 	"context"
 
-	"github.com/meibel-ai/meibel-cli/internal/output"
 	"github.com/spf13/cobra"
+	"github.com/meibel-ai/meibel-cli/internal/output"
 )
 
 var metadataConfigurationGetMetadataConfigCmd = &cobra.Command{
 	Use:   "get-config <datasource-id>",
 	Short: "Get Metadata Config",
-	Long: `Get Metadata Config
+	Long:  `Get Metadata Config
 
 Arguments:
   datasource-id: required`,
-	Args:    cobra.ExactArgs(1),
+	Args:  cobra.ExactArgs(1),
 	Example: "meibel metadata-configuration get-config <datasource-id>",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()

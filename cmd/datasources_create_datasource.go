@@ -6,22 +6,22 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
+	"golang.org/x/term"
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	sdk "github.com/meibel-ai/meibel-go"
-	"github.com/spf13/cobra"
-	"golang.org/x/term"
 )
 
 var (
-	datasourcesCreateDatasourceData        string
+	datasourcesCreateDatasourceData string
 	datasourcesCreateDatasourceInteractive bool
 )
 
 var datasourcesCreateDatasourceCmd = &cobra.Command{
-	Use:     "create",
-	Short:   "Create Datasource",
-	Long:    `Create Datasource`,
+	Use:   "create",
+	Short: "Create Datasource",
+	Long:  `Create Datasource`,
 	Example: "meibel datasources create",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := context.Background()
