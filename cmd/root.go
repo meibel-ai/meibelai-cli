@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/viper"
 	"github.com/meibel-ai/meibel-cli/internal/config"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/meibel-ai/meibel-cli/internal/version"
 	sdk "github.com/meibel-ai/meibel-go"
 )
 
@@ -62,7 +63,16 @@ func Execute() {
 	}
 }
 
+var versionCmd = &cobra.Command{
+	Use:   "version",
+	Short: "Print the version of meibel CLI",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Printf("meibel %s (commit: %s, built: %s)\n", version.Version, version.Commit, version.BuildDate)
+	},
+}
+
 func init() {
+	rootCmd.AddCommand(versionCmd)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.meibel/config.yaml)")
 	rootCmd.PersistentFlags().BoolVar(&jsonOutput, "json", false, "output as JSON")
 	rootCmd.PersistentFlags().BoolVar(&debug, "debug", false, "enable debug logging")
