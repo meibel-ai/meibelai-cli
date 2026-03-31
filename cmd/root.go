@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -30,7 +31,9 @@ var rootCmd = &cobra.Command{
 		}
 
 		// Initialize SDK client
-		opts := []sdk.ClientOption{}
+		opts := []sdk.ClientOption{
+			sdk.WithTimeout(5 * time.Minute),
+		}
 
 		if baseURL := viper.GetString("base_url"); baseURL != "" {
 			opts = append(opts, sdk.WithBaseURL(baseURL))

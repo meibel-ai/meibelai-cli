@@ -164,6 +164,22 @@ brews:
       For more information, visit:
         https://github.com/meibel-ai/meibel-cli
 
+# Scoop bucket (Windows)
+scoops:
+  - name: meibel
+    repository:
+      owner: meibel-ai
+      name: scoop-bucket
+      branch: main
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    commit_author:
+      name: goreleaserbot
+      email: bot@goreleaser.com
+    commit_msg_template: "Scoop update for {{ .ProjectName }} version {{ .Tag }}"
+    homepage: "https://github.com/meibel-ai/meibel-cli"
+    description: "CLI for interacting with Meibel AI API"
+    license: "MIT"
+
 # Docker images
 dockers:
   - id: meibel-amd64
@@ -234,7 +250,13 @@ release:
     ```bash
     brew install meibel-ai/tap/meibel
     ```
-    
+
+    #### Scoop (Windows)
+    ```powershell
+    scoop bucket add meibel https://github.com/meibel-ai/scoop-bucket.git
+    scoop install meibel
+    ```
+
     #### APT (Debian/Ubuntu)
     ```bash
     curl -LO https://github.com/meibel-ai/meibel-cli/releases/download/{{ .Tag }}/meibel_{{ .Version }}_linux_amd64.deb

@@ -13,6 +13,7 @@ import (
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	"github.com/meibel-ai/meibel-cli/internal/config"
 	"github.com/meibel-ai/meibel-cli/internal/tui"
+	"github.com/meibel-ai/meibel-cli/internal/upload"
 	meibelgo "github.com/meibel-ai/meibel-go"
 )
 
@@ -61,11 +62,19 @@ var documentsProcessDocumentCmd = &cobra.Command{
 		}
 		defer f.Close()
 
+		fi, err := f.Stat()
+		if err != nil {
+			return fmt.Errorf("failed to stat file: %w", err)
+		}
+		fileName := filepath.Base(documentsProcessDocumentFile)
+		pr := upload.NewProgressReader(f, fi.Size(), "Uploading")
+
 		var processOpts *meibelgo.ProcessDocumentOptions
 		if documentsProcessDocumentFormat != "" {
 			processOpts = &meibelgo.ProcessDocumentOptions{Format: &documentsProcessDocumentFormat}
 		}
-		result, err := client.Documents.ProcessDocument(ctx, f, filepath.Base(documentsProcessDocumentFile), processOpts)
+		result, err := client.Documents.ProcessDocument(ctx, pr, fileName, processOpts)
+		pr.Done()
 		if err != nil {
 			return err
 		}

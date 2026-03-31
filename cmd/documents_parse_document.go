@@ -13,6 +13,7 @@ import (
 	"github.com/meibel-ai/meibel-cli/internal/output"
 	"github.com/meibel-ai/meibel-cli/internal/config"
 	"github.com/meibel-ai/meibel-cli/internal/tui"
+	"github.com/meibel-ai/meibel-cli/internal/upload"
 )
 
 var (
@@ -59,8 +60,16 @@ var documentsParseDocumentCmd = &cobra.Command{
 		}
 		defer f.Close()
 
+		fi, err := f.Stat()
+		if err != nil {
+			return fmt.Errorf("failed to stat file: %w", err)
+		}
+		fileName := filepath.Base(documentsParseDocumentFile)
+		pr := upload.NewProgressReader(f, fi.Size(), "Uploading")
+
 		if documentsParseDocumentWait {
-			result, err := client.Documents.ProcessDocument(ctx, f, filepath.Base(documentsParseDocumentFile), nil)
+			result, err := client.Documents.ProcessDocument(ctx, pr, fileName, nil)
+			pr.Done()
 			if err != nil {
 				return err
 			}
@@ -87,7 +96,8 @@ var documentsParseDocumentCmd = &cobra.Command{
 			return nil
 		}
 
-		result, err := client.Documents.ParseDocument(ctx, f, filepath.Base(documentsParseDocumentFile))
+		result, err := client.Documents.ParseDocument(ctx, pr, fileName)
+		pr.Done()
 		if err != nil {
 			return err
 		}

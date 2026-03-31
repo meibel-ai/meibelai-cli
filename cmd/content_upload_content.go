@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/charmbracelet/huh"
 	"github.com/meibel-ai/meibel-cli/internal/output"
+	"github.com/meibel-ai/meibel-cli/internal/upload"
 )
 
 var (
@@ -58,7 +59,15 @@ Arguments:
 		}
 		defer f.Close()
 
-		result, err := client.Content.UploadContent(ctx, datasourceId, f, filepath.Base(contentUploadContentFile))
+		fi, err := f.Stat()
+		if err != nil {
+			return fmt.Errorf("failed to stat file: %w", err)
+		}
+		fileName := filepath.Base(contentUploadContentFile)
+		pr := upload.NewProgressReader(f, fi.Size(), "Uploading")
+
+		result, err := client.Content.UploadContent(ctx, datasourceId, pr, fileName)
+		pr.Done()
 		if err != nil {
 			return err
 		}
